@@ -1,0 +1,19 @@
+<launch>
+    <arg name="with_joy" default="false"/>
+    <group if="$(arg with_joy)">
+    
+        <node pkg="joy" type="joy_node" name="joy_node" >
+            <param name="autorepeat_rate" value="25"/>
+        </node>
+    </group>
+
+
+    <node pkg="simple_mecanum" type="drives_control_node" name="drives_control_node" output="log" respawn="false" respawn_delay="0" />
+
+    <!-- rosserial_python serial_node.py _baud:=57600 _port:=/dev/ttyUSB0 -->
+    <node pkg="rosserial_python" type="serial_node.py" name="communication_with_drives_node" output="log" respawn="false" respawn_delay="5">
+        <param name="baud" value="57600"/>
+        <param name="port" value="/dev/ttyUSB0"/>
+    </node>
+
+</launch>
